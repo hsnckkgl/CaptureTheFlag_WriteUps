@@ -53,7 +53,6 @@ I found these JavaScript codes on bottom of the head tag:
     	});
 
     	console.log(original);
-    </script>
-    ```
+    </script>```
 
 
