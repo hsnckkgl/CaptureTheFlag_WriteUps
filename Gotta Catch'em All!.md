@@ -8,7 +8,9 @@ The machine IP is 10.10.30.60 for me. (It will be different for you)
 Run Nmap to search open ports
 
 ```nmap -sC -sV -Pn 10.10.30.60```
+
 The result is:
+
 ```
 [root@hsn]─[/home/hsn]
 └──╼ #nmap -sC -sV -Pn 10.10.30.60
@@ -127,6 +129,10 @@ Documents  examples.desktop  Pictures  Templates
 pokemon@root:~$ cd Desktop/
 pokemon@root:~/Desktop$ ls
 P0kEmOn.zip
+```
+Unzip this file.
+
+```
 pokemon@root:~/Desktop$ unzip P0kEmOn.zip 
 Archive:  P0kEmOn.zip
    creating: P0kEmOn/
@@ -177,7 +183,7 @@ int main() {
 	return 0;
 }
 ```
-Another username:password in the "Could_this_be_what_Im_looking_for?.cplusplus" file.
+Another username:password is found in the "Could_this_be_what_Im_looking_for?.cplusplus" file.
 
 Let's try it on SSH again!
 
@@ -248,6 +254,7 @@ The answer is yes!
 ash@root:/home/pokemon$ sudo su
 ```
 Being root!
+
 ```
 root@root:/home/pokemon# ls
 Desktop    Downloads         Music     Public     Videos
@@ -260,14 +267,17 @@ root@root:/home# locate water-type
 root@root:/home# cat /var/www/html/water-type.txt
 Ecgudfxq_EcGmP{Ecgudfxq}
 ```
+
 We found "#2 Find the Water-Type Pokemon" flag! But encrypted. Looks like ROT13 encryption. When I google it, I found this website: https://rot13.com/
 We can check all ROTs from ROT1 to ROT25. At the ROT14, the text is being meaningful!
+
 ```
 root@root:/home# locate fire-type
 /etc/why_am_i_here?/fire-type.txt
 root@root:/home# cat /etc/why_am_i_here?/fire-type.txt
 UDBrM20wbntDaGFybWFuZGVyfQ==
 ```
+
 We found "#3 Find the Fire-Type Pokemon" flag! But encrypted again. Now it looks like Base64 encryption. On this https://www.base64decode.org/ website you can decode it. And of course Charmander was my favorite pokemon :)
 
 Many thanks to creator <a href="https://tryhackme.com/p/GhostlyPy" rel="nofollow">GhostlyPy</a> and <a href="https://tryhackme.com" rel="nofollow">TryHackMe.com</a> for this free room.
