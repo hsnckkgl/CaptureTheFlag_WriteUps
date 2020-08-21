@@ -37,7 +37,7 @@ You can see something different that is shouldn't be on a Apache2 server welcome
 
 I found these JavaScript codes on bottom of the head tag:
 
-´´´<script type="text/javascript">
+```<script type="text/javascript">
     	const randomPokemon = [
     		'Bulbasaur', 'Charmander', 'Squirtle',
     		'Snorlax',
