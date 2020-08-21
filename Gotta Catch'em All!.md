@@ -7,6 +7,4 @@ The machine IP is 10.10.30.60 for me. (It will be different for you)
 
 Run Nmap to search open ports
 
-```
-nmap -sC -sV -Pn 10.10.30.60
-```
+```nmap -sC -sV -Pn 10.10.30.60```
