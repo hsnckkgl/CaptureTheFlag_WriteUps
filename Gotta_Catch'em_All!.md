@@ -1,5 +1,5 @@
 # Gotta Catch'em All!
-<a href="https://tryhackme.com/room/pokemon" rel="nofollow">Click here to see the room!</a>
+<a href="https://tryhackme.com/room/pokemon">Click here to see the room!</a>
 
 First of all, connect to the VPN and deploy the machine.
 
