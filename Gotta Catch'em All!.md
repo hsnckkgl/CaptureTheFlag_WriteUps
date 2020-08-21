@@ -281,3 +281,9 @@ UDBrM20wbntDaGFybWFuZGVyfQ==
 We found "#3 Find the Fire-Type Pokemon" flag! But encrypted again. Now it looks like Base64 encryption. On this https://www.base64decode.org/ website you can decode it. And of course Charmander was my favorite pokemon :)
 
 Many thanks to creator <a href="https://tryhackme.com/p/GhostlyPy" rel="nofollow">GhostlyPy</a> and <a href="https://tryhackme.com" rel="nofollow">TryHackMe.com</a> for this free room.
+
+PS: This is my first write-up. If you think something is wrong, send a mail to hsnckkgl@gmail.com
+
+Best wishes all the CTF Players,
+
+hsnckkgl
