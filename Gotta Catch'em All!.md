@@ -146,5 +146,128 @@ pokemon@root:~/Desktop/P0kEmOn$ cat grass-type.txt
 Looks like our first flag but hex coded. Let's decode it!
 Google it "hexadecimal to text" and grab the "#1 Find the Grass-Type Pokemon" flag!
 
+Keep checking the other directories!
+```
+pokemon@root:~$ cd Music/
+pokemon@root:~/Music$ ls
+pokemon@root:~/Music$ cd ..
+pokemon@root:~$ cd Public/
+pokemon@root:~/Public$ ls
+pokemon@root:~/Public$ cd ..
+pokemon@root:~$ cd Videos/
+pokemon@root:~/Videos$ ls
+Gotta
+pokemon@root:~/Videos$ cd Gotta/
+pokemon@root:~/Videos/Gotta$ ls
+Catch
+pokemon@root:~/Videos/Gotta$ cd Catch/
+pokemon@root:~/Videos/Gotta/Catch$ ls
+Them
+pokemon@root:~/Videos/Gotta/Catch$ cd Them/
+pokemon@root:~/Videos/Gotta/Catch/Them$ ls
+ALL!
+pokemon@root:~/Videos/Gotta/Catch/Them$ cd ALL!
+pokemon@root:~/Videos/Gotta/Catch/Them/ALL!$ ls
+Could_this_be_what_Im_looking_for?.cplusplus
+pokemon@root:~/Videos/Gotta/Catch/Them/ALL!$ cat Could_this_be_what_Im_looking_for\?.cplusplus 
+# include <iostream>
+
+int main() {
+	std::cout << "ash : pikapika"
+	return 0;
+}
+```
+Another username:password in the "Could_this_be_what_Im_looking_for?.cplusplus" file.
+
+Let's try it on SSH again!
+
+```
+┌─[root@hsn]─[/home/hsn]
+└──╼ #ssh ash@10.10.30.60
+ash@10.10.30.60's password: pikapika
+Welcome to Ubuntu 16.04.6 LTS (GNU/Linux 4.15.0-112-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+84 packages can be updated.
+0 updates are security updates.
 
 
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+Could not chdir to home directory /home/ash: Permission denied
+
+$ whoami
+ash
+```
+Connected! Let's check the directories.
+
+```
+$ ls
+bin    dev   initrd.img      lib64	 mnt   root  snap  tmp	vmlinuz
+boot   etc   initrd.img.old  lost+found  opt   run   srv   usr	vmlinuz.old
+cdrom  home  lib	     media	 proc  sbin  sys   var
+$ cd home
+$ ls
+ash  pokemon  roots-pokemon.txt
+$ cat roots-pokemon.txt
+Pikachu!
+```
+Yes! We found "#4 Who is Root's Favorite Pokemon?" flag!
+
+Let's check that ash has root privileges!
+
+```
+ash@root:/home/pokemon$ sudo -l
+[sudo] password for ash: 
+Matching Defaults entries for ash on root:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User ash may run the following commands on root:
+    (ALL : ALL) ALL
+```
+The answer is yes!
+
+```
+ash@root:/home/pokemon$ sudo su
+```
+Being root!
+```
+root@root:/home/pokemon# ls
+Desktop    Downloads         Music     Public     Videos
+Documents  examples.desktop  Pictures  Templates
+```
+Try to find other flags!
+```
+root@root:/home# locate water-type
+/var/www/html/water-type.txt
+root@root:/home# cat /var/www/html/water-type.txt
+Ecgudfxq_EcGmP{Ecgudfxq}
+```
+We found "#2 Find the Water-Type Pokemon" flag! But encrypted. Looks like ROT13 encryption. When I google it, I found this website: https://rot13.com/
+We can check all ROTs from ROT1 to ROT25. At the ROT14, the text is being meaningful!
+```
+root@root:/home# locate fire-type
+/etc/why_am_i_here?/fire-type.txt
+root@root:/home# cat /etc/why_am_i_here?/fire-type.txt
+UDBrM20wbntDaGFybWFuZGVyfQ==
+```
+We found "#3 Find the Fire-Type Pokemon" flag! But encrypted again. Now it looks like Base64 encryption. On this https://www.base64decode.org/ website you can decode it. And of course Charmander was my favorite pokemon :)
+
+Many thanks to creator <a href="https://tryhackme.com/p/GhostlyPy" rel="nofollow">GhostlyPy</a> and <a href="https://tryhackme.com" rel="nofollow">TryHackMe.com</a> for this free room.
