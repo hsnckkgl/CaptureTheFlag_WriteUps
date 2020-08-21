@@ -284,6 +284,6 @@ Many thanks to creator <a href="https://tryhackme.com/p/GhostlyPy" rel="nofollow
 
 PS: This is my first write-up. If you think something is wrong, send a mail to hsnckkgl@gmail.com
 
-Best wishes all the CTF Players,
+Best wishes to all the CTF Players,
 
 hsnckkgl
