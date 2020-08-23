@@ -63,7 +63,7 @@ by OJ Reeves (@TheColonial) & Christian Mehlmauer (@_FireFart_)
 ```
 Nothing found :(
 
-Let's check http://10.10.30.60 on our browser.
+Let's check ```http://10.10.30.60``` on our browser.
 
 We see Apache2 server welcome page. Let's inspect this page! Right click on the page and click "View Page Source". Check codes carefully!
 
@@ -260,6 +260,7 @@ root@root:/home/pokemon# ls
 Desktop    Downloads         Music     Public     Videos
 Documents  examples.desktop  Pictures  Templates
 ```
+
 Try to find other flags!
 ```
 root@root:/home# locate water-type
@@ -280,7 +281,7 @@ UDBrM20wbntDaGFybWFuZGVyfQ==
 
 We found "#3 Find the Fire-Type Pokemon" flag! But encrypted again. Now it looks like Base64 encryption. On this https://www.base64decode.org/ website you can decode it. And of course Charmander was my favorite pokemon :)
 
-Many thanks to <a href="https://tryhackme.com/p/GhostlyPy" rel="nofollow">GhostlyPy</a> room creator and <a href="https://tryhackme.com" rel="nofollow">TryHackMe.com</a> for this free room.
+Many thanks to <a href="https://tryhackme.com/p/GhostlyPy">GhostlyPy</a> room creator and <a href="https://tryhackme.com">TryHackMe.com</a> for this free room.
 
 PS: This is my first write-up. If you think something is wrong, send a mail to hsnckkgl@gmail.com
 
