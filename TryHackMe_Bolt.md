@@ -87,19 +87,21 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done: 1 IP address (1 host up) scanned in 39.21 seconds
 ```
 3 ports are open.
+
 #1 	What port number has a web server with a CMS running? The answer is there!
 
-Let's check ```10.10.189.109:8000```. Yes it's working! Check the pages. You will find the answer of 
-#2 What is the username we can find in the CMS? and 
-#3 What is the password we can find for the username?
+Let's check ```10.10.189.109:8000```. Yes it's working! Check the pages. You will find the answer of #2 What is the username we can find in the CMS? and #3 What is the password we can find for the username?
 
 #4 	What version of the CMS is installed on the server? (Ex: Name 1.1.1)
+
 Just google it how to reach the login page. On the https://docs.bolt.cm/3.7/manual/login you will find ```http://<IP:PORT>/bolt/login```. Enter the username and password that you find on the web page. Now you are on Dashboard page. At the left-bottom corner you can see the answer.
 
 #5 	There's an exploit for a previous version of this CMS, which allows authenticated RCE. Find it on Exploit DB. What's its EDB-ID?
+
 Go to https://www.exploit-db.com/ and search for "Bolt cms". You will find the EDB-ID of Authenticated Remote Code Execution vulnerability.
 
 #6 	Metasploit recently added an exploit module for this vulnerability. What's the full path for this exploit? (Ex: exploit/....)
+
 Run metasploit! I recommend you to update Metasploit first.
 
 ```
@@ -112,7 +114,9 @@ msf6 > search bolt cms
 Can you see the full path for this exploit?
 
 #7 	Set the LHOST, LPORT, RHOST, USERNAME, PASSWORD in msfconsole before running the exploit
+
 You know the username and password. LHOST is your IP that you can find it on https://tryhackme.com/access or ```ifconfig``` on terminal. Keep LPORT 4444. RHOST is the target machine IP. You can see below how to set those parameters. PS: I hide username and password so don't set username as ```b...``` :D
+
 Make sure everything is correct before running ```exploit```/```run```
 ```
 msf6 > use 28
