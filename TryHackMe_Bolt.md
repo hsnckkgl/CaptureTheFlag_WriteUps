@@ -1,4 +1,4 @@
-# Bolt
+#Bolt
 <a href="https://tryhackme.com/room/bolt">Click here to see the room!</a>
 
 First of all, connect to the VPN and deploy the machine.
