@@ -1,1 +1,1 @@
-# You can find the solutions of some CTF machines here!
+# You can find the solutions for some CTF machines here!
