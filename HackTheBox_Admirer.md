@@ -1,6 +1,6 @@
 # Admirer
 
-<a href="https://app.hackthebox.eu/machines/248">Click here to see the room!</a>
+<a href="https://app.hackthebox.eu/machines/248">Click here to see the room!</a> (Login is necessary)
 
 First of all, connect to the VPN and join this machine.
 
